@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us</title>
+  <link rel="stylesheet" href="/NavBar/contactUs.css">
+</head>
+<body>
+    <div id="nav">
+        <button onclick="goToHome()">Home</button>
+        <h1>Contact Us</h1>
+    </div>
+  <div class="container">
+    <form id="contactForm">
+      <div class="input-box">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div class="input-box">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="input-box">
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" rows="5" required></textarea>
+      </div>
+      <button type="submit" class="btn8">Send</button>
+    </form>
+  </div>
+  <script>
+    function goToHome() {
+            window.location.href = '/Index.html'; 
+        }
+    document.getElementById('contactForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
+
+      const response = await fetch('/contactUs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, message }),
+      });
+
+      if (response.ok) {
+        alert('Message sent successfully!');
+        document.getElementById('contactForm').reset();
+      } else {
+        alert('Failed to send message. Please try again.');
+      }
+    });
+  </script>
+</body>
+</html>

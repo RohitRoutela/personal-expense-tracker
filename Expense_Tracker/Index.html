@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker - Dashboard</title>
+    <link rel="stylesheet" href="styles.css"> 
+</head>
+<body>
+    <div id="navbar-container"></div>
+    <div class="container">
+        <h1 class="dashboard-title">Welcome to Your Expense Dashboard</h1>
+
+        <div class="dashboard-stats">
+            <div class="stat-card">
+                <h3>Total Expenses</h3>
+                <p id="total-expenses">Rs. 0.00</p> 
+            </div>
+            <div class="stat-card">
+                <h3>Number of Expenses</h3>
+                <p id="expense-count">0</p>
+            </div>
+        </div>
+        <div class="actions">
+            <a href="/AddExpense/addExpense.html" class="btn">Add New Expense</a>
+            <a href="/ViewExpense/ViewExpense.html" class="btn">View All Expenses</a>
+        </div>
+    </div>
+    <script src="/loadNavBar.js"></script>
+    <script src="/NavBar/auth.js"></script> 
+    <script>
+        // Fetch dashboard stats
+        async function fetchDashboardStats() {
+            const email = localStorage.getItem("email");
+    
+            try {
+                const response = await fetch(`/dashboardStats?email=${email}`);
+                if (response.ok) {
+                    const stats = await response.json();
+                    updateDashboardStats(stats.total, stats.count);
+                } else {
+                    alert("Error fetching dashboard stats.");
+                }
+            } catch (error) {
+                console.error("Error fetching dashboard stats:", error);
+                alert("Error fetching dashboard stats.");
+            }
+        }
+    
+        // Update the dashboard stats in the DOM
+        function updateDashboardStats(total, count) {
+            document.getElementById("total-expenses").textContent = `Rs.${total.toFixed(2)}`;
+            document.getElementById("expense-count").textContent = count;
+        }
+    
+        // Fetch stats on page load
+        document.addEventListener("DOMContentLoaded", fetchDashboardStats);
+    </script>
+    
+      
+</body>
+
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Password</title>
+    <link rel="stylesheet" href="reset.css">
+</head>
+<body>
+    <div class="box3">
+        <div class="border-line3"></div>
+        <form method="post" action="/reset-password">
+            <h2>Reset Password</h2>
+            <div class="input-box3">
+                <input type="password" name="password" required="required">
+                <span>New Password</span>
+                <i></i>
+            </div>
+            <div class="input-box3">
+                <input type="password" name="confirmPassword" required="required">
+                <span>Confirm New Password</span>
+                <i></i>
+            </div>
+            <input type="hidden" name="token" value="{{token}}">
+            <input type="submit" value="Reset Password" class="btn3">
+        </form>
+    </div>
+</body>
+</html>

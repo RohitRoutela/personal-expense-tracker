@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background-color: #151f28;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #ffffff;
+    padding: 20px;
+}
+
+/* Navbar */
+#nav {
+    width: 100%;
+    background: #222;
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+#nav button {
+    background-color: #00eeff;
+    color: #151f28;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#nav button:hover {
+    background-color: #00ccdd;
+}
+
+
+/* Page Title */
+h1 {
+    margin-left: 36%;
+}
+
+/* Expense List */
+#expenseList {
+    background-color: #222;
+    border-radius: 10px;
+    padding: 20px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+#expenseList p {
+    font-size: 18px;
+    font-weight: 400;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+#expenseList div {
+    background-color: #1c1c1c;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #444;
+}
+
+#expenseList div:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 238, 255, 0.2);
+}
+
+/* Expense Details */
+#expenseList p {
+    margin: 5px 0;
+}
+
+#expenseList button {
+    background: #ff004c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+#expenseList button:hover {
+    background: #ff3366;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background: #444;
+    margin: 10px 0;
+}

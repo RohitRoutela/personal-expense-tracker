@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Expenses</title>
+    <link rel="stylesheet" href="ViewExpense.css"> 
+</head>
+<body>
+    
+
+    <div id="nav">
+        <button id="homeButton" onclick="goToHome()">Home</button>
+        <h1>View Expenses</h1>
+    </div>
+
+    <div id="expenseList">
+        <p>Loading expenses...</p>
+    </div>
+
+    <script>
+        function goToHome() {
+            window.location.href = '/Index.html'; 
+        }
+
+        // Centralized authentication check
+        function checkAuthentication() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            if (!isLoggedIn) {
+                alert('You are not logged in. Redirecting to the login page.');
+                window.location.href = '/LogIn/LogIn.html'; 
+            }
+        }
+
+        // Fetch expenses for the logged-in user
+        async function fetchExpenses() {
+            const email = localStorage.getItem('email');
+            if (!email) {
+                alert('No email found in localStorage. Please log in again.');
+                window.location.href = '/LogIn/LogIn.html'; 
+                return;
+            }
+
+            try {
+                const response = await fetch(`/viewExpenses?email=${email}`);
+                if (response.ok) {
+                    const expenses = await response.json();
+                    displayExpenses(expenses);
+                } else {
+                    alert('Error fetching expenses.');
+                }
+            } catch (error) {
+                console.error('Error fetching expenses:', error);
+                alert('Failed to fetch expenses.');
+            }
+        }
+
+        // Render expenses in the DOM
+        function displayExpenses(expenses) {
+            const expenseContainer = document.querySelector('#expenseList');
+            expenseContainer.innerHTML = ''; 
+
+            if (expenses.length === 0) {
+                expenseContainer.innerHTML = '<p>No expenses found.</p>';
+                return;
+            }
+
+            expenses.forEach((expense) => {
+                const expenseItem = document.createElement('div');
+                expenseItem.innerHTML = `
+                    <p>Category: ${expense.category}</p>
+                    <p>Amount: Rs. ${expense.amount}</p>
+                    <p>Description: ${expense.description || 'N/A'}</p>
+                    <p>Date: ${new Date(expense.date).toLocaleString()}</p>
+                    <button onclick="deleteExpense('${expense._id}')">Delete</button>
+                    <hr>
+                `;
+                expenseContainer.appendChild(expenseItem);
+            });
+        }
+
+        // Delete an expense
+        async function deleteExpense(expenseId) {
+            const email = localStorage.getItem('email');
+
+            if (!confirm('Are you sure you want to delete this expense?')) return;
+
+            try {
+                const response = await fetch(`/deleteExpense/${expenseId}`, {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+
+                if (response.ok) {
+                    alert('Expense deleted successfully!');
+                    fetchExpenses(); 
+                } else {
+                    const data = await response.json();
+                    alert(data.message || 'Error deleting expense.');
+                }
+            } catch (error) {
+                console.error('Error deleting expense:', error);
+                alert('Failed to delete expense.');
+            }
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function () {
+            checkAuthentication(); 
+            fetchExpenses(); 
+        });
+    </script>
+</body>
+</html>
